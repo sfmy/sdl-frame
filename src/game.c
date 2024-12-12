@@ -12,6 +12,8 @@ SDL_Window* gwindow;
 SDL_Renderer* grender;
 
 int GM_Init (const char* title, int screen_width, int screen_height) {
+    SCREEN_WIDTH = screen_width;
+    SCREEN_HEIGHT = screen_height;
     if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) < 0) {
         printf("sdl init fail %s\n", SDL_GetError());
         return 0;
@@ -58,16 +60,22 @@ void GM_SortSpriteList (GM_List* list) {
         for (cur = begin->next; cur != NULL; cur = cur->next) {
             pre = cur->pre;
             if (((GM_Sprite*)(cur->data))->z < ((GM_Sprite*)(pre->data))->z) {
-                cur->pre = pre->pre;
-                pre->next = cur->next;
-                cur->next = pre;
-                pre->pre = cur;
                 if (list->first == pre) {
                     list->first = cur;
+                }
+                else {
+                    pre->pre->next = cur;
                 }
                 if (list->last == cur) {
                     list->last = pre;
                 }
+                else {
+                    cur->next->pre = pre;
+                }
+                cur->pre = pre->pre;
+                pre->next = cur->next;
+                cur->next = pre;
+                pre->pre = cur;
             }
         }
     }
@@ -77,11 +85,13 @@ void GM_RenderSpriteList (GM_List* list) {
     GM_ListItem* item = NULL;
     GM_Sprite* sprite;
     SDL_RenderClear(grender);
+    SDL_Rect window_rect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
     for (item = list->first; item != NULL; item = item->next) {
         if (item->data != NULL) {
             sprite = (GM_Sprite*)(item->data);
+            printf("sprite %s\n", sprite->label);
             SDL_Rect rect = { sprite->x, sprite->y, sprite->w, sprite->h };
-            SDL_RenderCopy(grender, sprite->texture, NULL, &rect);
+            SDL_RenderCopy(grender, sprite->texture, &window_rect, &rect);
         }
     }
     SDL_RenderPresent(grender);

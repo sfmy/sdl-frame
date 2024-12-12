@@ -11,6 +11,7 @@ GM_Sprite* GM_CreateSprite (const char* file_name) {
     sprite->z = 0;
     sprite->w = 0;
     sprite->h = 0;
+    sprite->label = file_name;
     sprite->texture = NULL;
     SDL_Surface* tmp = IMG_Load(file_name);
     if (tmp == NULL) {
@@ -22,8 +23,8 @@ GM_Sprite* GM_CreateSprite (const char* file_name) {
             printf("create image %s fail %s\n", file_name, SDL_GetError());
         }
         else {
-            sprite->w = tmp->w;
-            sprite->h = tmp->h;
+            sprite->w = tmp->w; 
+            sprite->h = tmp->h; 
         }
         SDL_FreeSurface(tmp);
     }
@@ -37,6 +38,7 @@ GM_Sprite* GM_CreateLabel (TTF_Font* font, const char* label, SDL_Color* color, 
     sprite->z = 0;
     sprite->w = 0;
     sprite->h = 0;
+    sprite->label = label;
     sprite->texture = NULL;
     TTF_SetFontSize(font, size);
     SDL_Surface* tmp = TTF_RenderText_Solid(font, label, *color);
@@ -49,8 +51,8 @@ GM_Sprite* GM_CreateLabel (TTF_Font* font, const char* label, SDL_Color* color, 
             printf("create text %s fail %s\n", label, SDL_GetError());
         }
         else {
-            sprite->w = tmp->w;
-            sprite->h = tmp->h;
+            sprite->w = tmp->w; 
+            sprite->h = tmp->h; 
         }
         SDL_FreeSurface(tmp);
     }

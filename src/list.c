@@ -25,6 +25,7 @@ void GM_AddListItem (GM_List* list, void* data) {
         item->next = NULL;
         list->last = item;
     }
+    ++ list->length;
 }
 
 void GM_DelListItem(GM_List* list, void* data) {
@@ -38,6 +39,7 @@ void GM_DelListItem(GM_List* list, void* data) {
                 item->pre->next = item->next;
             }
             free(item);
+            -- list->length;
             break;
         }
     }

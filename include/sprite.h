@@ -5,6 +5,7 @@
 
 typedef struct GM_Sprite {
     float x, y, z, w, h;
+    const char* label;
     SDL_Texture* texture;
 } GM_Sprite;
 
