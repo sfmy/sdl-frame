@@ -6,10 +6,10 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
 
-extern int SCREEN_WIDTH;
-extern int SCREEN_HEIGHT;
-extern SDL_Window* gwindow;
-extern SDL_Renderer* grender;
+int SCREEN_WIDTH;
+int SCREEN_HEIGHT;
+SDL_Window* gwindow;
+SDL_Renderer* grender;
 
 int GM_Init (const char* title, int screen_width, int screen_height) {
     if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) < 0) {
