@@ -1,5 +1,5 @@
-#ifndef LIST_H
-#define LIST_H
+#ifndef __list_h_
+#define __list_h_
 typedef struct GM_ListItem {
     void * data;
     struct GM_ListItem* next;

@@ -89,7 +89,7 @@ void GM_RenderSpriteList (GM_List* list) {
     for (item = list->first; item != NULL; item = item->next) {
         if (item->data != NULL) {
             sprite = (GM_Sprite*)(item->data);
-            printf("sprite %s\n", sprite->label);
+            /* printf("sprite %s\n", sprite->label); */
             SDL_Rect rect = { sprite->x, sprite->y, sprite->w, sprite->h };
             SDL_RenderCopy(grender, sprite->texture, &window_rect, &rect);
         }

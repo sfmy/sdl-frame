@@ -11,9 +11,13 @@ $(TARGET): $(OBJS)
 %.o:%.c
 	$(CC) -c $< -o $@ $(INCLUDE)
 
-dump1:
+dump:
 	echo $(SRCS)
 	echo $(OBJS)
+
+run: 
+	./game
+
 clean:
 	rm -f $(OBJS) $(TARGET)
 
