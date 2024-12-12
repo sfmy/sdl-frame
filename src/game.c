@@ -10,6 +10,7 @@ int SCREEN_WIDTH;
 int SCREEN_HEIGHT;
 SDL_Window* gwindow;
 SDL_Renderer* grender;
+int FPS;
 
 int GM_Init (const char* title, int screen_width, int screen_height) {
     SCREEN_WIDTH = screen_width;
@@ -103,4 +104,8 @@ void GM_Destroy () {
     IMG_Quit();
     TTF_Quit();
     SDL_Quit();
+}
+
+void GM_SetFPS (int fps) {
+    FPS = fps;
 }
