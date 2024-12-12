@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 
 extern int SCREEN_WIDTH;
 extern int SCREEN_HEIGHT;
@@ -36,6 +37,10 @@ int GM_Init (const char* title, int screen_width, int screen_height) {
                 }
                 if (TTF_Init() == -1) {
                     printf("ttf init fail %s\n", TTF_GetError());
+                    return 0;
+                }
+				if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+                    printf("mixer init fail %s\n", Mix_GetError());
                     return 0;
                 }
             }
