@@ -10,7 +10,7 @@ int SCREEN_WIDTH;
 int SCREEN_HEIGHT;
 SDL_Window* gwindow;
 SDL_Renderer* grender;
-int FPS;
+int FPS = 60;
 
 int GM_Init (const char* title, int screen_width, int screen_height) {
     SCREEN_WIDTH = screen_width;
