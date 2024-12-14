@@ -1,15 +1,20 @@
 #include "../include/game.h" 
 #include "../include/sprite.h"
+#include "../include/list.h"
+#include "../include/tween.h"
 #include <stdio.h> 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
 
-int SCREEN_WIDTH;
-int SCREEN_HEIGHT;
-SDL_Window* gwindow;
-SDL_Renderer* grender;
+int SCREEN_WIDTH = 640;
+int SCREEN_HEIGHT = 960;
+SDL_Window* gwindow = NULL;
+SDL_Renderer* grender = NULL;
+GM_List* gsprite_list = NULL;
+GM_List* gevent_list = NULL;
+GM_List* gtween_list = NULL;
 int FPS = 60;
 
 int GM_Init (const char* title, int screen_width, int screen_height) {
@@ -49,45 +54,59 @@ int GM_Init (const char* title, int screen_width, int screen_height) {
             }
         }
     }
+    gsprite_list = GM_CreateList();
+    gevent_list = GM_CreateList();
+    gtween_list = GM_CreateList();
     return 1;
 }
 
-void GM_SortSpriteList (GM_List* list) {
+void GM_AddSprite (GM_Sprite* sprite) {
+    GM_AddListItem(gsprite_list, sprite);
+}
+
+void GM_SortSpriteList () {
     GM_ListItem* begin = NULL;
     GM_ListItem* cur = NULL;
     GM_ListItem* pre = NULL;
-
-    for (begin = list->first; begin != NULL; begin = begin->next) {
-        for (cur = begin->next; cur != NULL; cur = cur->next) {
-            pre = cur->pre;
-            if (((GM_Sprite*)(cur->data))->z < ((GM_Sprite*)(pre->data))->z) {
-                if (list->first == pre) {
-                    list->first = cur;
+    int sorted = 1;
+    for (cur = gsprite_list->first; cur != NULL && sorted; cur = cur->next) {
+        if (cur->next != NULL && ((GM_Sprite*)(cur->data))->z > ((GM_Sprite*)(cur->next->data))->z) {
+            sorted = 0;
+        }
+    }
+    if (!sorted) {
+        for (begin = gsprite_list->first; begin != NULL; begin = begin->next) {
+            for (cur = begin->next; cur != NULL; cur = cur->next) {
+                pre = cur->pre;
+                if (((GM_Sprite*)(cur->data))->z < ((GM_Sprite*)(pre->data))->z) {
+                    if (gsprite_list->first == pre) {
+                        gsprite_list->first = cur;
+                    }
+                    else {
+                        pre->pre->next = cur;
+                    }
+                    if (gsprite_list->last == cur) {
+                        gsprite_list->last = pre;
+                    }
+                    else {
+                        cur->next->pre = pre;
+                    }
+                    cur->pre = pre->pre;
+                    pre->next = cur->next;
+                    cur->next = pre;
+                    pre->pre = cur;
                 }
-                else {
-                    pre->pre->next = cur;
-                }
-                if (list->last == cur) {
-                    list->last = pre;
-                }
-                else {
-                    cur->next->pre = pre;
-                }
-                cur->pre = pre->pre;
-                pre->next = cur->next;
-                cur->next = pre;
-                pre->pre = cur;
             }
         }
     }
 }
 
-void GM_RenderSpriteList (GM_List* list) {
+void GM_RenderSpriteList () {
     GM_ListItem* item = NULL;
     GM_Sprite* sprite;
     SDL_RenderClear(grender);
     SDL_Rect window_rect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-    for (item = list->first; item != NULL; item = item->next) {
+    for (item = gsprite_list->first; item != NULL; item = item->next) {
         if (item->data != NULL) {
             sprite = (GM_Sprite*)(item->data);
             /* printf("sprite %s\n", sprite->label); */
@@ -99,6 +118,15 @@ void GM_RenderSpriteList (GM_List* list) {
 }
 
 void GM_Destroy () {
+    GM_FreeListData(gsprite_list, GM_DestroySprite);
+    GM_DestroyList(gsprite_list);
+    gsprite_list = NULL;
+    GM_DestroyList(gevent_list);
+    gevent_list = NULL;
+    GM_FreeListData(gtween_list, GM_DestroyTween);
+    GM_DestroyList(gtween_list);
+    gtween_list = NULL;
+
     SDL_DestroyRenderer(grender);
     SDL_DestroyWindow(gwindow);
     IMG_Quit();

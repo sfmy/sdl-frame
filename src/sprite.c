@@ -64,9 +64,9 @@ void GM_SetSpritePosition (GM_Sprite* gm_sprite, float x, float y) {
     gm_sprite->y = y;
 }
 
-void GM_DestroySprite (GM_Sprite* gm_sprite) {
-    if (gm_sprite->texture != NULL) {
-        SDL_DestroyTexture(gm_sprite->texture);
-        gm_sprite->texture = NULL;
+void GM_DestroySprite (void* gm_sprite) {
+    if (((GM_Sprite*) gm_sprite)->texture != NULL) {
+        SDL_DestroyTexture(((GM_Sprite*)gm_sprite)->texture);
+        ((GM_Sprite*)gm_sprite)->texture = NULL;
     }
 }
