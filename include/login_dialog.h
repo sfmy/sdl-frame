@@ -1,5 +1,5 @@
-#ifndef __login_h_
-#define __login_h_
+#ifndef __login_dialog_h_
+#define __login_dialog_h_
 
 #include "list.h"
 #include "sprite.h" 

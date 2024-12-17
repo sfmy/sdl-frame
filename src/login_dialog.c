@@ -1,12 +1,15 @@
-#include "../include/login.h" 
+#include "../include/login_dialog.h" 
 #include <stdlib.h>
 #include "../include/event.h"
 #include "../include/game.h"
+#include "../include/home_dialog.h"
+#include "../include/audio.h"
 
-extern GM_List* gsprite_list;
+extern GM_List *gsprite_list;
 extern int SCREEN_HEIGHT;
 extern int SCREEN_WIDTH;
 extern LoginDialog *glogin_dialog;
+extern GM_Sound *gclick_sound;
 
 static void handleEvent (SDL_Event *e) {
     if (e->type == SDL_MOUSEBUTTONDOWN) {
@@ -15,7 +18,10 @@ static void handleEvent (SDL_Event *e) {
         x = x-SCREEN_WIDTH/2.f;
         y = SCREEN_HEIGHT/2.f-y;
         if (GM_PointInSprite(x, y, glogin_dialog->login_sprite)) {
+            GM_PlaySound(gclick_sound);
             GM_DestroyLoginDialog();
+            GM_CreateHomeDialog();
+            GM_SetHomeDialogPage(0);
         }
     }
 }

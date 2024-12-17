@@ -4,21 +4,23 @@
 #include "include/audio.h"
 #include <SDL2/SDL.h>
 #include "include/event.h"
-#include "include/login.h"
+#include "include/login_dialog.h"
 
 extern GM_List* gsprite_list;
 GM_Music* music = NULL;
-TTF_Font* font = NULL;
+TTF_Font* gfont = NULL;
 SDL_Color color = { 0xFF, 0, 0, 0xFF };
+GM_Sound *gclick_sound = NULL;
 
 void init () {
     GM_Init("sdl window", 480, 720);
     GM_SetFPS(60);
     music = GM_CreateMusic("res/bgm.mp3", 1);
+    gclick_sound = GM_CreateSound("res/click.mp3", 1);
     const char* font_file = "res/kaishu.ttf";
-    font = TTF_OpenFont(font_file, 24);
-    if (font == NULL) {
-        printf("open font %s fail %s\n", font_file, TTF_GetError());
+    gfont = TTF_OpenFont(font_file, 24);
+    if (gfont == NULL) {
+        printf("open gfont %s fail %s\n", font_file, TTF_GetError());
     }
 }
 
@@ -68,6 +70,7 @@ int main () {
     GM_HandleEvent();
 
     GM_FreeMusic(music);
+    GM_FreeSound(gclick_sound);
     GM_Destroy();
     return 0;
 }

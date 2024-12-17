@@ -17,7 +17,6 @@ extern int FPS;
 
 int GM_Init (const char* title, int screen_width, int screen_height);
 
-void GM_AddSprite (GM_Sprite* sprite);
 void GM_SortSpriteList ();
 void GM_RenderSpriteList ();
 
