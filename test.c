@@ -4,6 +4,7 @@
 #include "include/audio.h"
 #include <SDL2/SDL.h>
 #include "include/event.h"
+#include "include/login.h"
 
 extern GM_List* gsprite_list;
 GM_Music* music = NULL;
@@ -11,7 +12,7 @@ TTF_Font* font = NULL;
 SDL_Color color = { 0xFF, 0, 0, 0xFF };
 
 void init () {
-    GM_Init("sdl window", 400, 400);
+    GM_Init("sdl window", 480, 720);
     GM_SetFPS(60);
     music = GM_CreateMusic("res/bgm.mp3", 1);
     const char* font_file = "res/kaishu.ttf";
@@ -59,27 +60,10 @@ int main () {
     init();
     GM_PlayMusic(music);
 
-    GM_Sprite* sprite = GM_CreateSprite("res/red.png");
-    GM_SetSpritePosition(sprite, 0, 0);
-    sprite->z = 1;
-    GM_AddSprite(sprite);
+    GM_CreateLoginDialog();
 
-    sprite = GM_CreateSprite("res/blue.png");
-    GM_SetSpritePosition(sprite, 40, 40);
-    sprite->z = 2;
-    GM_AddSprite(sprite);
-
-    sprite = GM_CreateSprite("res/red2.png");
-    GM_SetSpritePosition(sprite, 40, 40);
-    sprite->z = 0;
-    GM_AddSprite(sprite);
-
-    sprite = GM_CreateLabel(font, "this is a test!", &color, 24);
-    GM_SetSpritePosition(sprite, 20, 20);
-    GM_AddSprite(sprite);
-
-    GM_AddEvent((GM_Event)handleEvent);
-    GM_AddEvent((GM_Event)handleEvent2);
+    /* GM_AddEvent((GM_Event)handleEvent); */
+    /* GM_AddEvent((GM_Event)handleEvent2); */
 
     GM_HandleEvent();
 

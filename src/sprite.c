@@ -59,6 +59,13 @@ GM_Sprite* GM_CreateLabel (TTF_Font* font, const char* label, SDL_Color* color, 
     return sprite;
 }
 
+int GM_PointInSprite (int x, int y, GM_Sprite* sprite) {
+    if (x > sprite->x-sprite->w/2.f && x < sprite->x+sprite->w/2.f && y > sprite->y-sprite->h/2.f && y < sprite->y+sprite->h/2.f) {
+        return 1;
+    }
+    return 0;
+}
+
 void GM_SetSpritePosition (GM_Sprite* gm_sprite, float x, float y) {
     gm_sprite->x = x;
     gm_sprite->y = y;

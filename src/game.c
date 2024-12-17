@@ -3,6 +3,7 @@
 #include "../include/list.h"
 #include "../include/tween.h"
 #include <stdio.h> 
+#include <stdint.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -60,10 +61,6 @@ int GM_Init (const char* title, int screen_width, int screen_height) {
     return 1;
 }
 
-void GM_AddSprite (GM_Sprite* sprite) {
-    GM_AddListItem(gsprite_list, sprite);
-}
-
 void GM_SortSpriteList () {
     GM_ListItem* begin = NULL;
     GM_ListItem* cur = NULL;
@@ -110,11 +107,59 @@ void GM_RenderSpriteList () {
         if (item->data != NULL) {
             sprite = (GM_Sprite*)(item->data);
             /* printf("sprite %s\n", sprite->label); */
-            SDL_Rect rect = { sprite->x, sprite->y, sprite->w, sprite->h };
+            SDL_Rect rect = { 
+                SCREEN_WIDTH/2.f+sprite->x-sprite->w/2.f,
+                SCREEN_HEIGHT/2.f-sprite->y-sprite->h/2.f,
+                sprite->w,
+                sprite->h 
+            };
             SDL_RenderCopy(grender, sprite->texture, &window_rect, &rect);
         }
     }
     SDL_RenderPresent(grender);
+}
+
+
+void GM_AddEvent (GM_Event e) {
+    GM_AddListItemByData(gevent_list, e);
+}
+
+void GM_DelEvent (GM_Event e) {
+    GM_DelListItemByData(gevent_list, e);
+}
+
+void GM_AddTween (GM_Tween* tween) {
+    GM_AddListItemByData(gtween_list, tween);
+}
+
+void GM_DelTween (GM_Tween* tween) {
+    GM_DelListItemByData(gtween_list, tween);
+}
+
+void GM_TriggerTweenList () {
+    GM_ListItem* cur = NULL;
+    uint32_t now = 0;
+    if (gtween_list != NULL) {
+        now = SDL_GetTicks();
+        cur = gtween_list->first;
+        while (cur != NULL) {
+            GM_TriggerTween((GM_Tween*)(cur->data));
+            if (((GM_Tween*)(cur->data))->end_tm <= now) {
+                GM_DestroyTween((GM_Tween*)(cur->data));
+                if (gtween_list->last == cur) {
+                    GM_DelListItem(gtween_list, cur);
+                    cur = NULL;
+                }
+                else {
+                    cur = cur->next;
+                    GM_DelListItem(gtween_list, cur->pre);
+                }
+            }
+            else {
+                cur = cur->next;
+            }
+        }
+    }
 }
 
 void GM_Destroy () {

@@ -11,9 +11,10 @@ GM_List* GM_CreateList () {
     return list;
 }
 
-void GM_AddListItem (GM_List* list, void* data) {
+GM_ListItem* GM_AddListItemByData (GM_List* list, void* data) {
     if (list == NULL) {
-        printf("GM_AddListItem fail\n");
+        printf("GM_AddListItemByData fail\n");
+        return NULL;
     }
     else {
         GM_ListItem* item = malloc(sizeof(GM_ListItem));
@@ -31,29 +32,50 @@ void GM_AddListItem (GM_List* list, void* data) {
             list->last = item;
         }
         ++ list->length;
+        return item;
     }
 }
 
-void GM_DelListItem(GM_List* list, void* data) {
+void GM_DelListItemByData(GM_List* list, void* data) {
     if (list == NULL) {
-        printf("GM_DelListItem fail\n");
+        printf("GM_DelListItemByData fail\n");
     }
     else {
         GM_ListItem* item = NULL;
         for (item = list->first; item != NULL; item = item->next) {
             if (item->data == data) {
-                if (item->pre == NULL) {
-                    list->first = item->next;
-                }
-                else {
-                    item->pre->next = item->next;
-                }
-                free(item);
-                -- list->length;
+                GM_DelListItem(list, item);
                 break;
             }
         }
     }
+}
+
+void GM_DelListItem (GM_List* list, GM_ListItem* item) {
+    if (list->first == item) {
+        list->first = item->next;
+        if (item->next != NULL) {
+            item->next->pre = NULL;
+        }
+    }
+    else {
+        if (item->pre != NULL) {
+            item->pre->next = item->next;
+        }
+    }
+    if (list->last == item) {
+        list->last = item->pre;
+        if (item->pre != NULL) {
+            item->pre->next = NULL;
+        }
+    }
+    else {
+        if (item->next != NULL) {
+            item->next->pre = item->pre;
+        }
+    }
+    free(item);
+    -- list->length;
 }
 
 void GM_FreeListData(GM_List* list, void (*fun) (void*)) {

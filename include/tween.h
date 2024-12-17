@@ -12,5 +12,7 @@ typedef struct GM_Tween {
 } GM_Tween;
 
 GM_Tween* GM_CreateTween (GM_Sprite* sprite, uint32_t duration, float end_x, float end_y);
+void GM_TriggerTween (GM_Tween* tween);
 void GM_DestroyTween (void* tween);
+
 #endif

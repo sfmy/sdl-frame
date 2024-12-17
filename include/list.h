@@ -13,8 +13,9 @@ typedef struct GM_List {
 } GM_List;
 
 GM_List* GM_CreateList ();
-void GM_AddListItem (GM_List* list, void* data);
-void GM_DelListItem(GM_List* list, void* data);
+GM_ListItem* GM_AddListItemByData (GM_List* list, void* data);
+void GM_DelListItemByData (GM_List* list, void* data);
+void GM_DelListItem (GM_List* list, GM_ListItem* item);
 void GM_FreeListData(GM_List* list, void (*fun) (void*));
 void GM_DestroyList(GM_List* list);
 
