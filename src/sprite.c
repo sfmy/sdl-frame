@@ -9,6 +9,8 @@ GM_Sprite* GM_CreateSprite (const char* file_name) {
     sprite->x = 0;
     sprite->y = 0;
     sprite->z = 0;
+    sprite->scale.x = 1.f;
+    sprite->scale.y = 1.f;
     sprite->w = 0;
     sprite->h = 0;
     sprite->label = file_name;
@@ -36,6 +38,8 @@ GM_Sprite* GM_CreateLabel (TTF_Font* font, const char* label, SDL_Color* color, 
     sprite->x = 0;
     sprite->y = 0;
     sprite->z = 0;
+    sprite->scale.x = 1;
+    sprite->scale.y = 1;
     sprite->w = 0;
     sprite->h = 0;
     sprite->label = label;
@@ -60,7 +64,9 @@ GM_Sprite* GM_CreateLabel (TTF_Font* font, const char* label, SDL_Color* color, 
 }
 
 int GM_PointInSprite (int x, int y, GM_Sprite* sprite) {
-    if (x > sprite->x-sprite->w/2.f && x < sprite->x+sprite->w/2.f && y > sprite->y-sprite->h/2.f && y < sprite->y+sprite->h/2.f) {
+    float width = sprite->w/2.f*sprite->scale.x;
+    float height = sprite->h/2.f*sprite->scale.y;
+    if (x > sprite->x-width && x < sprite->x+width && y > sprite->y-height && y < sprite->y+height) {
         return 1;
     }
     return 0;

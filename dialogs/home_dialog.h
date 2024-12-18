@@ -1,6 +1,6 @@
 #ifndef __home_dialog_h_
 #define __home_dialog_h_
-#include "sprite.h"
+#include "../include/sprite.h"
 
 typedef struct HomeLevelItem {
     int level;
@@ -8,8 +8,10 @@ typedef struct HomeLevelItem {
 } HomeLevelItem;
 
 typedef struct HomeDialog {
-    int page;
+    int cur_page, max_page;
     GM_Sprite *bg_sprite;
+    GM_Sprite *left_arrow_sprite;
+    GM_Sprite *right_arrow_sprite;
     GM_Sprite *level_label;
     HomeLevelItem **level_list;
     int list_count;

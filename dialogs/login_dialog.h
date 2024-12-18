@@ -1,8 +1,8 @@
 #ifndef __login_dialog_h_
 #define __login_dialog_h_
 
-#include "list.h"
-#include "sprite.h" 
+#include "../include/list.h"
+#include "../include/sprite.h" 
 
 typedef struct LoginDialog {
     GM_Sprite* bg_sprite;

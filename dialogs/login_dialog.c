@@ -1,8 +1,8 @@
-#include "../include/login_dialog.h" 
+#include "login_dialog.h" 
 #include <stdlib.h>
 #include "../include/event.h"
 #include "../include/game.h"
-#include "../include/home_dialog.h"
+#include "home_dialog.h"
 #include "../include/audio.h"
 
 extern GM_List *gsprite_list;

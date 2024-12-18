@@ -3,8 +3,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+typedef struct Scale {
+    float x, y;
+} Scale;
+
 typedef struct GM_Sprite {
     float x, y, z, w, h;
+    Scale scale;
     const char* label;
     SDL_Texture* texture;
 } GM_Sprite;

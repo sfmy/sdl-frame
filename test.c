@@ -4,7 +4,7 @@
 #include "include/audio.h"
 #include <SDL2/SDL.h>
 #include "include/event.h"
-#include "include/login_dialog.h"
+#include "dialogs/login_dialog.h"
 
 extern GM_List* gsprite_list;
 GM_Music* music = NULL;

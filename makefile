@@ -1,8 +1,8 @@
-CC = gcc -g
+CC = gcc
 EMCC = emcc
 LIBS = $(shell pkg-config --cflags --libs sdl2 sdl2_image sdl2_mixer sdl2_ttf)
 INCLUDE = -I./include
-SRCS = $(wildcard src/*.c *.c)
+SRCS = $(wildcard src/*.c dialogs/*.c *.c)
 OBJS = $(patsubst %.c, %.o, $(SRCS))
 TARGET = game
 WEB_TARGET = game_web
