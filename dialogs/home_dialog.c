@@ -1,4 +1,5 @@
 #include "home_dialog.h" 
+#include "game_dialog.h"
 #include "../include/event.h" 
 #include <stdlib.h>
 #include "../include/game.h"
@@ -38,6 +39,8 @@ static void handleEvent (SDL_Event *e) {
             if (GM_PointInSprite(x, y, ghome_dialog->level_list[n]->sprite)) {
                 GM_PlaySound(gclick_sound);
                 printf("click %d\n", ghome_dialog->level_list[n]->level);
+                GM_CreateGameDialog(ghome_dialog->level_list[n]->level);
+                GM_DestroyHomeDialog();
                 return;
             }
         }

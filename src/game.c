@@ -102,7 +102,6 @@ void GM_RenderSpriteList () {
     GM_ListItem* item = NULL;
     GM_Sprite* sprite;
     SDL_RenderClear(grender);
-    SDL_Rect window_rect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
     for (item = gsprite_list->first; item != NULL; item = item->next) {
         if (item->data != NULL) {
             sprite = (GM_Sprite*)(item->data);
@@ -112,7 +111,7 @@ void GM_RenderSpriteList () {
                 sprite->w*sprite->scale.x,
                 sprite->h*sprite->scale.y 
             };
-            SDL_RenderCopy(grender, sprite->texture, &window_rect, &rect);
+            SDL_RenderCopy(grender, sprite->texture, NULL, &rect);
         }
     }
     SDL_RenderPresent(grender);
