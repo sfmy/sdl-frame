@@ -38,8 +38,8 @@ static void handleEvent (SDL_Event *e) {
         for (n = 0; n < ghome_dialog->list_count; ++n) {
             if (GM_PointInSprite(x, y, ghome_dialog->level_list[n]->sprite)) {
                 GM_PlaySound(gclick_sound);
-                printf("click %d\n", ghome_dialog->level_list[n]->level);
-                GM_CreateGameDialog(ghome_dialog->level_list[n]->level);
+                printf("click %d\n", ghome_dialog->level_list[n]->level+1);
+                GM_CreateGameDialog(ghome_dialog->level_list[n]->level+1);
                 GM_DestroyHomeDialog();
                 return;
             }
